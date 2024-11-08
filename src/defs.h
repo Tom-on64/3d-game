@@ -46,7 +46,21 @@ float vmag   (const vec_t* a);
 vec_t vnorm  (const vec_t* a);
 void  vprint (const vec_t* a);
 
-// TODO: Matricies
+// Matricies
+typedef struct {
+    float m[4*4];   // 4x4 Matrix
+} mat4_t;
+
+#define mat4_identity()     ((mat4_t) { .m = { 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f} })                
+#define mat4_translate(_t)  ((mat4_t) { .m = { 1.0f, 0.0f, 0.0f, t.x, 0.0f, 1.0f, 0.0f, t.y, 0.0f, 0.0f, 1.0f, t.z, 0.0f, 0.0f, 0.0f, 1.0f} })
+#define mat4_scale(_s)      ((mat4_t) { .m = { s.x, 0.0f, 0.0f, 0.0f, 0.0f, s.y, 0.0f, 0.0f, 0.0f, 0.0f, s.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f} })
+#define mat4_rotx(_a)       ((mat4_t) { .m = { 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, cos(a), -sin(a), 0.0f, 0.0f, sin(a), cos(a), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f} })
+#define mat4_roty(_a)       ((mat4_t) { .m = { cos(a), 0.0f, sin(a), 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, -sin(a), 0.0f, cos(a), 0.0f, 0.0f, 0.0f, 0.0f, 1.0f} })
+#define mat4_rotz(_a)       ((mat4_t) { .m = { cos(a), -sin(a), 0.0f, 0.0f, sin(a), cos(a), 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f} })
+
+mat4_t  m4mult  (const mat4_t* a, const mat4_t* b);
+vec4_t  m4vmult (const mat4_t* a, const vec4_t* b);
+void    m4print (const mat4_t* a);
 
 // Some math stuff
 inline double lerp(double a, double b, double t) { return t*b + (1.0-t) * a; }

@@ -6,7 +6,7 @@ CC = clang
 LD = clang
 
 CFLAGS = -std=c17 -O2 -Wall -Wextra -Wpedantic
-LDFLAGS = -framework OpenGL -lglfw -lm
+LDFLAGS = -lsdl2
 
 SRC = $(shell find src -name '*.c')
 OBJ = $(SRC:.c=.o)
@@ -19,7 +19,7 @@ all: $(OUT)
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(OUT): $(OBJ)
-	$(LD) -o $@ $< $(LDFLAGS)
+	$(LD) -o $@ $(OBJ) $(LDFLAGS)
 
 clean:
 	rm -fr $(OUT)
