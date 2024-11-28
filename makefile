@@ -1,27 +1,23 @@
-#
-# Makefile
-#
-
 CC = clang
 LD = clang
 
-CFLAGS = -std=c17 -O2 -Wall -Wextra -Wpedantic
-LDFLAGS = -lsdl2
+CFLAGS = -std=c11 -O2 -g -Wall -Wextra -Wpedantic -Iinclude
+LDFLAGS = -lSDL2
 
-SRC = $(shell find src -name '*.c')
+SRC = $(wildcard src/*.c)
 OBJ = $(SRC:.c=.o)
 OUT = ./out
 
 .PHONY: all clean
+
 all: $(OUT)
+$(OUT): $(OBJ)
+	$(LD) $(LDFLAGS) -o $@ $(OBJ)
 
 %.o: %.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OUT): $(OBJ)
-	$(LD) -o $@ $(OBJ) $(LDFLAGS)
-
-clean:
-	rm -fr $(OUT)
-	rm -fr $(OBJ)
+clean: 
+	rm -f $(OBJ)
+	rm -f $(OUT)
 
