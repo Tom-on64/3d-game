@@ -1,23 +1,28 @@
-CC = clang
-LD = clang
+CC = cc
+LD = cc
 
-CFLAGS = -std=c11 -O2 -g -Wall -Wextra -Wpedantic -Iinclude
-LDFLAGS = -lSDL2
+CCFLAGS = -Wall -Wextra -Wpedantic -std=c99
+LDFLAGS =
 
-SRC = $(wildcard src/*.c)
-OBJ = $(SRC:.c=.o)
-OUT = ./out
+SRC = ./src
+BIN = ./bin
+SRCS = $(wildcard $(SRC)/*.c)
+OBJS = $(patsubst $(SRC)/%.c, $(BIN)/%.o, $(SRCS))
+OUT = ./bin/game
 
-.PHONY: all clean
+.PHONY: all clean run
 
 all: $(OUT)
-$(OUT): $(OBJ)
-	$(LD) $(LDFLAGS) -o $@ $(OBJ)
+$(OUT): $(OBJS)
+	$(LD) $(LDFLAGS) -o $@ $^
 
-%.o: %.c
+$(BIN)/%.o: $(SRC)/%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-clean: 
-	rm -f $(OBJ)
-	rm -f $(OUT)
+clean:
+	rm -fr $(OUT) $(OBJS) $(BIN)
+
+run: $(OUT)
+	$(OUT)
 

@@ -1,4 +1,10 @@
+# Binaries
+bin
+*.o
+*.elf
+
+# Editor
 *.swp
 *.swo
-out
-*.o
+.vscode
+
